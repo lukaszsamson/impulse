@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  .container.main
+    section.row
+      .span8.offset2
+        .hero-unit
+          h1 im-Pulse
+          p Find motivation, be active, inspire others
+        .row
+          section.span4
+            form#signUpForm(method="post", action="/signUp")
+              input.input-xlarge#email(name="email",type="email")
+              button.btn(type="submit")
+                  i.icon-plus
+                  | Sign up
+            script
+              $(function() {
+              $('#signUpForm').submit(function(e) {
+                $this = $(this);
+                $.ajax({type: 'POST', url: $this.attr('action'), data: $this.serialize(), success: function(data) {
+                  $this.replaceWith(data);
+                }, error: function() {
+                }});
+                e.preventDefault();
+              });
+              });
+        .row
+        

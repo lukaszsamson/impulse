@@ -1,0 +1,31 @@
+include header
+.container-fluid.main
+  .row-fluid
+    section.span3
+      include tasklist
+      
+    section.span9
+      header.hero-unit
+        h1 New task
+        p Fill in the form below.
+      .row
+        .span8
+          form.form-horizontal.new-task
+            fieldset
+              legend Task details
+              .control-group
+                label.control-label(for="title") Title
+                .controls
+                  input.input-xlarge#title(name="title")
+                  p.help-block Enter title for the task
+              .control-group
+                label.control-label(for="details") Details
+                .controls
+                  textarea.input-xlarge#details(name="details",rows="3",value="")
+                  p.help-block Enter detailed info
+              .form-actions
+                button.btn.btn-primary(type="submit") Save task
+                button.btn Cancel
+
+  include footer
+  script(type='text/javascript', src='/js/socket.js')

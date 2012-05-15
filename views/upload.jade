@@ -1,0 +1,23 @@
+include header
+.container-fluid.main
+  .row
+    .span8.offset2
+      .hero-unit
+        h3 Customer browser
+      .row
+        .span6.offset2#holder(style="min-height: 300px")
+        .span6
+          p.hidden#upload
+            label!= 'Drag & drop not supported, but you can still upload via this input field:<br><input type="file">'
+          p#filereader File API & FileReader API not supported
+          p#formdata XHR2's FormData is not supported
+          p#progress XHR2's upload progress isn't supported
+          p
+            = 'Upload progress: '
+            progress#uploadprogress(min="0", max="100", value="0"> 0
+          p Drag an image from your desktop on to the drop zone above to see the browser both render the preview, but also upload automatically to this server.
+              
+        
+      
+  include footer
+  script(type='text/javascript', src='/js/upload.js')

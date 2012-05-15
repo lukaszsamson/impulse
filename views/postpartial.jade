@@ -1,0 +1,29 @@
+.row-fluid
+  section.span3
+    include postlist
+    
+  section.span9
+    article
+      header.hero-unit
+        h1= post.title
+      .row
+        .span8
+          p= post.text
+    .row
+      section.span8
+        h2 Comments
+        each comment in post.comments
+          article
+            p= comment
+        form.form-horizontal.new-task(action="/posts/#{post.id}/comments",method="post")
+          fieldset
+            legend Add comment
+            .control-group
+              label.control-label(for="text") Text
+              .controls
+                textarea.input-xlarge#text(name="text",rows="2", value="")
+                p.help-block Enter comment text
+            .form-actions
+              button.btn.btn-large(type="submit")
+                i.icon-comment
+                = 'Post a comment'

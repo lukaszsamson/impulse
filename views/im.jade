@@ -1,0 +1,81 @@
+extends layout
+
+block content
+  .navbar.navbar-fixed-top
+    .navbar-inner
+      .container-fluid
+        a(data-toggle='collapse',data-target='.nav-collapse').btn.btn-navbar
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a(href='#').brand #{title}
+        nav.nav-collapse
+          ul.nav
+            - var obj = { '/home': 'Html 5 demo', '/tasks': 'Tasks', '/posts': 'Posts', '/location': 'Location', '/storage': 'Storage', '/customers': 'Customers', '/upload': 'Upload' }
+            - each val, key in obj
+              - if (id == key) 
+                li.active
+                  a(href='#{key}') #{val}
+              - else
+                li
+                  a(href='#{key}') #{val}
+          form.pull-right.navbar-search(method="post",action="/login")
+            input.search-query.span2(type="text",name="userId")
+          p.navbar-text.pull-right Logged in as #{session.currentUser}
+          //
+            form.pull-right.navbar-search(method="post",action="/logout")
+              button.btn(type="submit")
+                | Log out
+          
+
+
+  .container.main
+    .row
+      section.span3.offset1
+        nav.well.sidebar-nav
+          ul.nav.nav-list
+            li
+              a(href="/posts/new")
+                i.icon-plus
+                = 'Create new'
+            li.nav-header Created
+            each impulse in myImpulses
+              li
+                a(href="/im/#{impulse.id}",data-id="#{impulse.id}")= impulse.name
+      section.span7
+        .hero-unit
+          h1= impulse.name
+          p Created by #{impulse.creator} at #{impulse.createDate}
+          | Members: #{impulse.users.length} of #{impulse.membersNeeded} needed
+          .progress.progress-striped
+            .bar(style="width: #{100 * impulse.users.length / impulse.membersNeeded}%;")
+
+        .row
+          .span7
+            .well
+              section
+                - if (impulse.users.indexOf(session.currentUser) == -1)
+                  form#join(method="post", action="/im/#{impulse.id}/join")
+                    button.btn(type="submit")
+                        i.icon-plus
+                        | Join
+                - else
+                  form#leave(method="post", action="/im/#{impulse.id}/leave")
+                    button.btn(type="submit")
+                        i.icon-plus
+                        | Leave
+            
+              section
+                h1 Message stream
+                form.form-inline#postMessage(method="post", action="/im/#{impulse.id}/msgs")
+                  input.input-small.span5#text(name="text",type="text")
+                  button.btn(type="submit")
+                      i.icon-plus
+                      | Post
+
+                -each m in impulse.messages
+                  article
+                    p= m.text
+                    footer.footer #{m.author} at #{m.date}
+                
+          

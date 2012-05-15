@@ -1,0 +1,18 @@
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container-fluid
+      a(data-toggle='collapse',data-target='.nav-collapse').btn.btn-navbar
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a(href='#').brand #{title}
+      nav.nav-collapse
+        ul.nav
+          - var obj = { '/home': 'Html 5 demo', '/tasks': 'Tasks', '/posts': 'Posts', '/location': 'Location', '/storage': 'Storage', '/customers': 'Customers', '/upload': 'Upload' }
+          - each val, key in obj
+            - if (id == key) 
+              li.active
+                a(href='#{key}') #{val}
+            - else
+              li
+                a(href='#{key}') #{val}

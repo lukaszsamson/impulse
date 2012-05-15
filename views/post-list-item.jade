@@ -1,0 +1,2 @@
+li(class="#{post.id == active ? 'active' : ''}")
+  a(href="/posts/#{post.id}",data-id="#{post.id}")= post.title

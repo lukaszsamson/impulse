@@ -1,0 +1,12 @@
+{
+  "name": "html5demo",
+  "author": "Lukasz Samson",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "coffee-script": "latest",
+    "express": "https://github.com/visionmedia/express/tarball/master",
+    "socket.io": "latest",
+    "jade": "latest"
+  }
+}

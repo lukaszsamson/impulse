@@ -1,0 +1,30 @@
+include header
+.container.main
+  .row
+    section.span7.offset2
+      header.hero-unit
+        h1 Writing a big, long post...
+        p Fill in the form below.
+      form.form-horizontal
+        fieldset
+          legend Two hours of hard work
+          textarea.input-xlarge#text(name="text",rows="8",value="",style="box-sizing:border-box;width:100%")
+          .form-actions
+            button.btn.btn-primary.save(type="submit")
+              i.icon-pencil.icon-white
+              = 'Save'
+    
+  include footer
+  script(type='text/javascript', src='/js/storage.js')
+  
+  section.modal.fade#unsavedWarning
+    header.modal-header
+      a.close(data-dismiss="modal") *
+      h3 Warning
+    .modal-body
+      p!= 'You have some unsaved changes, last edited <span id="date"></span> seconds ago.'
+      p Do you want to recover those changes?
+    footer.modal-footer
+      button.btn.btn-danger(data-dismiss="modal") Don't recover
+      button.btn#recover Recover
+      

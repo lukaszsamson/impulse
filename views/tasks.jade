@@ -1,0 +1,13 @@
+include header
+.container-fluid.main
+  .row-fluid
+    section.span3
+      include tasklist
+      
+    section.span9
+      header.hero-unit
+        h1 Welcome
+        p There are #{tasks.count} tasks awaiting your attention.
+
+  include footer
+  script(type='text/javascript', src='/js/socket.js')

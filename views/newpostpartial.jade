@@ -1,0 +1,27 @@
+.row-fluid
+  section.span3
+    include postlist
+    
+  section.span9
+    header.hero-unit
+      h1 New post
+      p Fill in the form below.
+    .row
+      .span8
+        form.form-horizontal.new-task(action="/posts",method="post")
+          fieldset
+            legend Post
+            .control-group
+              label.control-label(for="title") Title
+              .controls
+                input.input-xlarge#title(name="title")
+                p.help-block Enter a cachy title for the post
+            .control-group
+              label.control-label(for="text") Text
+              .controls
+                textarea.input-xlarge#text(name="text",rows="5", value="")
+                p.help-block Enter post text
+            .form-actions
+              button.btn.btn-primary(type="submit")
+                i.icon-plus.icon-white
+                = 'Save post'

@@ -1,0 +1,250 @@
+app.get '/tasks', (req, res) ->
+  res.render 'tasks',
+    title: 'Tasks'
+    id: 'tasks'
+    tasks:
+      created: tasks.filter (t) -> t.status == "Created"
+      accepted: tasks.filter (t) -> t.status == "Accepted"
+      rejected: tasks.filter (t) -> t.status == "Rejected"
+
+app.get '/tasks/new', (req, res) ->
+  res.render 'newtask',
+    title: 'Tasks'
+    id: 'tasks'
+    tasks:
+      created: tasks.filter (t) -> t.status == "Created"
+      accepted: tasks.filter (t) -> t.status == "Accepted"
+      rejected: tasks.filter (t) -> t.status == "Rejected"
+      count: tasks.length
+
+app.get '/tasks/:id', (req, res, next) ->
+  foundTasks = tasks.filter((t) -> t.id == req.params.id)
+  task = foundTasks[0]
+  if not task
+    return next(new Error("Task #{req.params.id} not found"))
+  res.render 'edittask', {
+    title: 'Tasks'
+    id: 'tasks'
+    task: task
+    tasks:
+      created: tasks.filter (t) -> t.status == "Created"
+      accepted: tasks.filter (t) -> t.status == "Accepted"
+      rejected: tasks.filter (t) -> t.status == "Rejected"
+      count: tasks.length
+    }
+
+
+
+app.get '/posts', (req, res) ->
+  if req.query["ajax"]
+    setTimeout () ->
+      res.partial 'postspartial',
+        title: 'Posts'
+        id: 'posts'
+        posts: posts
+        active: null
+    , 2000
+  else
+    res.render 'posts',
+      title: 'Posts'
+      id: 'posts'
+      posts: posts
+      active: null
+
+app.get '/posts/new', (req, res) ->
+  if req.query["ajax"]
+    setTimeout () ->
+      res.partial 'newpostpartial',
+        title: 'Posts'
+        id: 'posts'
+        posts: posts
+        active: 'new'
+    , 2000
+  else
+    res.render 'newpost',
+      title: 'Posts'
+      id: 'posts'
+      posts: posts
+      active: 'new'
+
+app.get '/posts/:id', (req, res, next) ->
+  foundPosts = posts.filter((t) -> t.id == req.params.id)
+  post = foundPosts[0]
+  if not post
+    return next(new Error("Post #{req.params.id} not found"))
+  if req.query["ajax"]
+    setTimeout () ->
+      res.partial 'postpartial',
+        title: 'Posts'
+        id: 'posts'
+        posts: posts
+        post: post
+        active: post.id
+    , 2000
+  else
+    res.render 'post',
+      title: 'Posts'
+      id: 'posts'
+      posts: posts
+      post: post
+      active: post.id
+
+app.post '/posts', (req, res, next) ->
+  post = {
+    id: Math.floor(Math.random()*10000).toString()
+    title: req.body.title
+    text: req.body.text
+    comments: []
+  }
+  posts.push post
+  if not req.xhr
+    res.redirect('/posts/' + post.id);
+  else
+    setTimeout () ->
+      res.partial 'postpartial',
+        title: 'Posts'
+        id: 'posts'
+        posts: posts
+        post: post
+        active: post.id
+    , 2000
+
+app.post '/posts/:id/comments', (req, res, next) ->
+  foundPosts = posts.filter((t) -> t.id == req.params.id)
+  post = foundPosts[0]
+  if not post
+    return next(new Error("Post #{req.params.id} not found"))
+  post.comments.push req.body.text
+  if not req.xhr
+    res.redirect('/posts/' + post.id)
+  else
+    setTimeout () ->
+      res.partial 'postpartial',
+        title: 'Posts'
+        id: 'posts'
+        posts: posts
+        post: post
+        active: post.id
+    , 2000
+
+    
+    
+app.get '/location', (req, res) ->
+  res.render 'location',
+    title: 'Location'
+    id: 'location' 
+
+app.get '/storage', (req, res) ->
+  res.render 'storage',
+    title: 'Storage'
+    id: 'storage' 
+
+app.get '/customers', (req, res) ->
+  res.render 'customers',
+    title: 'Customers'
+    id: 'customers' 
+    
+app.get '/upload', (req, res) ->
+  res.render 'upload',
+    title: 'Upload'
+    id: 'upload' 
+    
+app.post '/dev/null', (req, res) ->
+  uploadFile(req, res)
+  ###
+  req.form.on 'progress', (bytesReceived, bytesExpected) ->
+    percent = bytesReceived / bytesExpected * 100
+    console.log 'Uploading: %' + percent
+
+  req.form.complete (err, fields, files) ->
+    if err
+      return next err
+    else
+      console.log 'uploaded %s to %s', files.image.filename, files.image.path
+      res.send()
+  ###
+# SERVER
+
+posts = []
+
+nicknames = {}
+
+tasks = [{
+  id: "1"
+  createdBy: "asdasd"
+  title: "Kup mleko"
+  details: "dsckmdfvdsf dsfgdsf gsdfg dsf gds fg sdfg sdfg <script>alert('panic')</script>sdf dsf dsf dsgdsgdfgs dsfg dsf g sdfg"
+  status: "Created"
+  }, {
+  id: "2"
+  createdBy: "asdasd"
+  title: "Wynieś śmieci"
+  details: "dsckmdfvdsf dsfgdsf gsdfg dsf gds fg sdfg sdfg <script>alert('panic')</script>sdf dsf dsf dsgdsgdfgs dsfg dsf g sdfg"
+  status: "Accepted"
+  }, {
+  id: "3"
+  createdBy: "asdasd"
+  title: "Posprzątaj w pokoju"
+  details: "dsckmdfvdsf dsfgdsf gsdfg dsf gds fg sdfg sdfg <script>alert('panic')</script>sdf dsf dsf dsgdsgdfgs dsfg dsf g sdfg"
+  status: "Created"
+  }, {
+  id: "4"
+  createdBy: "asdasd"
+  title: "Wyprowadź psa"
+  details: "dsckmdfvdsf dsfgdsf gsdfg dsf gds fg sdfg sdfg <script>alert('panic')</script>sdf dsf dsf dsgdsgdfgs dsfg dsf g sdfg"
+  status: "Rejected"
+  }
+]
+    
+io.sockets.on 'connection', (socket) ->
+  socket.on 'create task', (msg, fn) ->
+    task = {
+      id: Math.floor(Math.random()*10000).toString()
+      title: msg.title
+      details: msg.details
+      status: "Created"
+      createdBy: socket.nickname
+      created: new Date()
+    }
+    tasks.push task
+    fn(null, task);
+    socket.broadcast.emit 'task created', task
+
+  socket.on 'accept task', (id, fn) ->
+    foundTasks = tasks.filter((t) -> t.id == id)
+    task = foundTasks[0]
+    if not task
+      return fn("Task #{id} not found.")
+    if task.status != 'Created'
+      return fn("Task #{id} cannot be accepted.")  
+    task.status = 'Accepted'
+    fn(null);
+    socket.broadcast.emit 'task accepted', task.id
+    
+  socket.on 'reject task', (id, fn) ->
+    foundTasks = tasks.filter((t) -> t.id == id)
+    task = foundTasks[0]
+    if not task
+      return fn("Task #{id} not found.")
+    if task.status != 'Created'
+      return fn("Task #{id} cannot be rejected.")  
+    task.status = 'Rejected'
+    fn(null);
+    socket.broadcast.emit 'task rejected', task.id
+    
+  socket.on 'nickname', (nick, fn) ->
+    if nicknames[nick]
+      fn true
+    else
+      fn false
+      nicknames[nick] = socket.nickname = nick
+      socket.broadcast.emit 'announcement', nick + ' connected'
+      io.sockets.emit 'nicknames', nicknames
+
+
+  socket.on 'disconnect', () ->
+    if not socket.nickname
+        return
+    delete nicknames[socket.nickname]
+    socket.broadcast.emit 'announcement', socket.nickname + ' disconnected'
+    socket.broadcast.emit 'nicknames', nicknames

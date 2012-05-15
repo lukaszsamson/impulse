@@ -1,0 +1,33 @@
+include header
+.container-fluid.main
+  .row-fluid
+    section.span3
+      include tasklist
+      
+    section.span9
+      header.hero-unit
+        h1 Task #{task.id}
+        p Status: #{task.status}
+      .row
+        .span8
+          form.form-horizontal(data-id="#{task.id}")
+            fieldset
+              legend Task details
+              .control-group
+                label.control-label(for="title") Title
+                .controls
+                  p.input-xlarge#title= task.title
+              .control-group
+                label.control-label(for="details") Details
+                .controls
+                  p.input-xlarge#details= task.details
+              .form-actions
+                button.btn.btn-primary.accept(type="submit",)
+                  i.icon-ok.icon-white
+                  = 'Accept'
+                button.btn.btn-primary.reject(type="submit")
+                  i.icon-remove.icon-white
+                  = 'Reject'
+
+  include footer
+  script(type='text/javascript', src='/js/socket.js')

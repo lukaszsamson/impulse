@@ -1,0 +1,15 @@
+nav.well.sidebar-nav
+  ul.nav.nav-list
+    li
+      a(href="/tasks/new")
+        i.icon-plus
+        = 'Create new'
+    li.nav-header.c Created
+    each task in tasks.created
+      include task-list-item
+    li.nav-header.a Accepted
+    each task in tasks.accepted
+      include task-list-item
+    li.nav-header.r Rejected
+    each task in tasks.rejected
+      include task-list-item

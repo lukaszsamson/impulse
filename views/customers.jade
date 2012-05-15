@@ -1,0 +1,52 @@
+include header
+.container-fluid.main
+  section.row
+    .span8.offset2
+      .hero-unit
+        h3 Customer browser
+      .row
+        section.span4
+          input.input-xlarge#searchname(name="searchname")
+          table.table.table-striped
+            thead
+              tr
+                th Id
+                th Name
+                th Purchases
+            tbody#customers
+        section.span4#details
+          h4 Customer details
+          dl.dl-horizontal
+      .row
+        section.span4
+          button.btn#add
+            i.icon-plus
+            = 'Add a new customer'
+              
+        
+  section.modal.fade#addCustomer
+    header.modal-header
+      a.close(data-dismiss="modal") &times;
+      h3 Add a customer
+    .modal-body
+      form.form-horizontal
+        fieldset
+          legend Enter new customer details
+          .control-group
+            label.control-label(for="name") Name
+            .controls
+              input.input-xlarge#name(name="name")
+          .control-group
+            label.control-label(for="email") e-mail
+            .controls
+              input.input-xlarge#email(name="email", type="email")
+          .control-group
+            label.control-label(for="birthDate") Birth date
+            .controls
+              input.input-xlarge#birthDate(name="birthDate", type="date")
+    footer.modal-footer
+      button.btn.btn-danger(data-dismiss="modal") Cancel
+      button.btn#save Add
+      
+  include footer
+  script(type='text/javascript', src='/js/indexed-db.js')
